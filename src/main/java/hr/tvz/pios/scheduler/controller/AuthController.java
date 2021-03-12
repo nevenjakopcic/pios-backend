@@ -6,6 +6,7 @@ import hr.tvz.pios.scheduler.model.JwtRequest;
 import hr.tvz.pios.scheduler.model.JwtResponse;
 import hr.tvz.pios.scheduler.service.JwtUserDetailsService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,22 +28,26 @@ public class AuthController {
     private final JwtUserDetailsService userDetailsService;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+    public ResponseEntity<ApiResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {
+        try {
+            authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+            final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new ApiResponse(new JwtResponse(token)));
+            return ResponseEntity.ok(new ApiResponse(new JwtResponse(token)));
+        }
+        catch (DisabledException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(new ApiResponse("This user is disabled."));
+        }
+        catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(new ApiResponse("Incorrect username and/or password."));
+        }
     }
 
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+    private void authenticate(String username, String password) throws DisabledException, BadCredentialsException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }
