@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
        hr.tvz.pios.scheduler.model.User user = userService.getUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException(""));

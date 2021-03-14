@@ -1,4 +1,4 @@
-package hr.tvz.pios.scheduler.model;
+package hr.tvz.pios.scheduler.dto;
 
 import java.io.Serial;
 import java.io.Serializable;

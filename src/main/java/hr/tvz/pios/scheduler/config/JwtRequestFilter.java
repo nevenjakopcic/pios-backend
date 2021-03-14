@@ -37,10 +37,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException e) {
                 logger.warn("JWT Token has expired.");
             }
-        } else {
-            if (!request.getRequestURI().equals("/api/auth/login")) {
-                logger.warn("JWT Token does not begin with Bearer string.");
-            }
+        } else if (!request.getRequestURI().startsWith("/api/auth")) {
+            logger.warn("JWT Token does not begin with Bearer string.");
         }
 
         // Once we get the token validate it.
