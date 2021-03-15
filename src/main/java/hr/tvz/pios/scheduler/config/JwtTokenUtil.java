@@ -3,7 +3,6 @@ package hr.tvz.pios.scheduler.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = -4236987190902191827L;
 
     public static final long JWT_TOKEN_VALIDITY = 18000L;
