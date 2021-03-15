@@ -14,7 +14,7 @@
 	<name>scheduler</name>
 	<description>Gym Scheduler for PIOS</description>
 	<properties>
-		<java.version>15</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
