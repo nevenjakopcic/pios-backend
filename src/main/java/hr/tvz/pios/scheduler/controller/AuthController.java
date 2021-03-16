@@ -5,16 +5,16 @@ import hr.tvz.pios.scheduler.dto.ApiResponse;
 import hr.tvz.pios.scheduler.dto.JwtRequest;
 import hr.tvz.pios.scheduler.dto.JwtResponse;
 import hr.tvz.pios.scheduler.dto.RegisterUserDto;
+import hr.tvz.pios.scheduler.model.User;
 import hr.tvz.pios.scheduler.service.JwtUserDetailsService;
 import hr.tvz.pios.scheduler.service.UserService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +37,10 @@ public class AuthController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new ApiResponse(new JwtResponse(token)));
+        final User user = userService.getUserByUsername(authenticationRequest.getUsername())
+                                        .orElseThrow(() -> new UsernameNotFoundException(""));
+
+        return ResponseEntity.ok(new ApiResponse(new JwtResponse(user.getId(), token, user.getEmail())));
     }
 
     @PostMapping("/register")

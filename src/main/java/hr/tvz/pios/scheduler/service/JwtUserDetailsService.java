@@ -16,7 +16,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-       hr.tvz.pios.scheduler.model.User user = userService.getUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException(""));
+       hr.tvz.pios.scheduler.model.User user = userService.getUserByUsername(username)
+                                                            .orElseThrow(() -> new UsernameNotFoundException(""));
 
        return new User(
            user.getUsername(),
