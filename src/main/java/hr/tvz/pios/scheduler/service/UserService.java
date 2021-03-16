@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void save(RegisterUserDto registerRequest) throws UsernameAlreadyTakenException {
+    public void save(RegisterUserDto registerRequest) {
         User user = User.builder()
             .username(registerRequest.getUsername())
             .password(passwordEncoder.encode(registerRequest.getPassword()))

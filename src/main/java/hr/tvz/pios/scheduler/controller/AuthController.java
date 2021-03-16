@@ -46,7 +46,7 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    private void authenticate(String username, String password) throws DisabledException, BadCredentialsException {
+    private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }
