@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,5 +38,10 @@ public class ExceptionAdvice {
     @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<ApiResponse> handleBadCredentialsException(BadCredentialsException e) {
         return new ResponseEntity<>(new ApiResponse("Incorrect username and/or password."), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException e) {
+        return new ResponseEntity<>(new ApiResponse("Access denied."), HttpStatus.FORBIDDEN);
     }
 }

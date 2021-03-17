@@ -4,6 +4,7 @@ import hr.tvz.pios.scheduler.dto.RegisterUserDto;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import hr.tvz.pios.scheduler.model.User;
+import hr.tvz.pios.scheduler.repository.RoleRepository;
 import hr.tvz.pios.scheduler.repository.UserRepository;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     public void save(RegisterUserDto registerRequest) {
@@ -22,6 +24,7 @@ public class UserService {
             .username(registerRequest.getUsername())
             .password(passwordEncoder.encode(registerRequest.getPassword()))
             .email(registerRequest.getEmail())
+            .role(roleRepository.findByName("ROLE_USER"))
             .disabled(false).build();
 
         if (getUserByUsername(registerRequest.getUsername()).isPresent()) {

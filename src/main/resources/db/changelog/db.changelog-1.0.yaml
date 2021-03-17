@@ -1,0 +1,84 @@
+databaseChangeLog:
+  - liquibaseSchemaName: pios
+  - changeSet:
+      id: 1615938257
+      author: Neven Jakopčić
+      changes:
+      - createTable:
+          schemaName: pios
+          tableName: PERSON_ROLE
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: PERSON_ROLE_pk
+            - column:
+                name: NAME
+                type: VARCHAR(30)
+                constraints:
+                  nullable: false
+                  unique: true
+            - column:
+                name: ACTIVE
+                type: BIT
+                defaultValue: 1
+                constraints:
+                  nullable: false
+      - createTable:
+          schemaName: pios
+          tableName: PERSON
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: PERSON_pk
+            - column:
+                name: USERNAME
+                type: VARCHAR(30)
+                constraints:
+                  nullable: false
+                  unique: true
+            - column:
+                name: PASSWORD
+                type: VARCHAR(500)
+                constraints:
+                  nullable: false
+            - column:
+                name: EMAIL
+                type: VARCHAR(50)
+                constraints:
+                  nullable: false
+                  unique: true
+            - column:
+                name: DISABLED
+                type: BIT
+                defaultValue: 0
+                constraints:
+                  nullable: false
+            - column:
+                name: ROLE_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_ROLE_PERSON
+                  references: pios.PERSON_ROLE(ID)
+      - insert:
+          schemaName: pios
+          tableName: PERSON_ROLE
+          columns:
+            - column:
+                name: NAME
+                value: "ROLE_USER"
+      - insert:
+          schemaName: pios
+          tableName: PERSON_ROLE
+          columns:
+            - column:
+                name: NAME
+                value: "ROLE_ADMIN"
