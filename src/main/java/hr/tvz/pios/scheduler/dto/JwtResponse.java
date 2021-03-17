@@ -1,5 +1,6 @@
 package hr.tvz.pios.scheduler.dto;
 
+import hr.tvz.pios.scheduler.model.UserRole;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,4 +14,5 @@ public class JwtResponse implements Serializable {
     private final Long id;
     private final String jwtToken;
     private final String email;
+    private final UserRole role;
 }

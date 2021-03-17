@@ -1,7 +1,8 @@
 package hr.tvz.pios.scheduler.service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,6 @@ public class JwtUserDetailsService implements UserDetailsService {
        return new User(
            user.getUsername(),
            user.getPassword(),
-           new ArrayList<>());
+           Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName())));
     }
 }
