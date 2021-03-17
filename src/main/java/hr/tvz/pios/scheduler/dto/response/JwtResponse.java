@@ -1,4 +1,4 @@
-package hr.tvz.pios.scheduler.dto;
+package hr.tvz.pios.scheduler.dto.response;
 
 import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.model.UserRole;

@@ -1,6 +1,6 @@
 package hr.tvz.pios.scheduler.service;
 
-import hr.tvz.pios.scheduler.dto.RegisterUserRequest;
+import hr.tvz.pios.scheduler.dto.request.RegisterUserRequest;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import hr.tvz.pios.scheduler.model.User;

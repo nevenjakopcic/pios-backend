@@ -1,4 +1,4 @@
-package hr.tvz.pios.scheduler.dto;
+package hr.tvz.pios.scheduler.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

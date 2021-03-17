@@ -1,4 +1,4 @@
-package hr.tvz.pios.scheduler.dto;
+package hr.tvz.pios.scheduler.dto.request;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
