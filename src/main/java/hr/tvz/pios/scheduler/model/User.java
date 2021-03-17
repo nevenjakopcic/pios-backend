@@ -40,6 +40,9 @@ public class User implements Serializable {
     @OneToOne
     private UserRole role;
 
+    @OneToOne
+    private UserPreferences preferences;
+
     @Column(name = "DISABLED", nullable = false)
     private Boolean disabled;
 }

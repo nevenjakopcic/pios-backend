@@ -29,6 +29,29 @@ databaseChangeLog:
                   nullable: false
       - createTable:
           schemaName: pios
+          tableName: PERSON_PREFERENCES
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: PERSON_PREFERENCES_pk
+            - column:
+                name: LOCALE
+                type: VARCHAR(30)
+                defaultValue: "HR"
+                constraints:
+                  nullable: false
+            - column:
+                name: DARKMODE
+                type: BIT
+                defaultValue: 0
+                constraints:
+                  nullable: false
+      - createTable:
+          schemaName: pios
           tableName: PERSON
           columns:
             - column:
@@ -68,6 +91,13 @@ databaseChangeLog:
                   nullable: false
                   foreignKeyName: FK_ROLE_PERSON
                   references: pios.PERSON_ROLE(ID)
+            - column:
+                name: PREFERENCES_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_PREFERENCES_PERSON
+                  references: pios.PERSON_PREFERENCES(ID)
       - insert:
           schemaName: pios
           tableName: PERSON_ROLE

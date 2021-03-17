@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterUserDto {
+public class RegisterUserRequest {
 
     @NotBlank(message = "Username is a required field.")
     private String username;
@@ -21,4 +21,3 @@ public class RegisterUserDto {
     @NotBlank(message = "Email is a required field.")
     private String email;
 }
-

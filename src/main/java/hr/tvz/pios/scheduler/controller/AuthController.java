@@ -4,7 +4,7 @@ import hr.tvz.pios.scheduler.config.JwtTokenUtil;
 import hr.tvz.pios.scheduler.dto.ApiResponse;
 import hr.tvz.pios.scheduler.dto.JwtRequest;
 import hr.tvz.pios.scheduler.dto.JwtResponse;
-import hr.tvz.pios.scheduler.dto.RegisterUserDto;
+import hr.tvz.pios.scheduler.dto.RegisterUserRequest;
 import hr.tvz.pios.scheduler.model.User;
 import hr.tvz.pios.scheduler.service.JwtUserDetailsService;
 import hr.tvz.pios.scheduler.service.UserService;
@@ -42,11 +42,12 @@ public class AuthController {
         final User user = userService.getUserByUsername(authenticationRequest.getUsername())
                                         .orElseThrow(() -> new UsernameNotFoundException(""));
 
-        return ResponseEntity.ok(new ApiResponse(new JwtResponse(user.getId(), token, user.getEmail(), user.getRole())));
+        return ResponseEntity.ok(new ApiResponse(
+            new JwtResponse(user.getId(), token, user.getEmail(), user.getRole(), user.getPreferences())));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerNewUser(@Valid @RequestBody final RegisterUserDto registerRequest) {
+    public ResponseEntity<ApiResponse> registerNewUser(@Valid @RequestBody final RegisterUserRequest registerRequest) {
         userService.save(registerRequest);
         return ResponseEntity.noContent().build();
     }
