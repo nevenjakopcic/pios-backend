@@ -1,6 +1,8 @@
 package hr.tvz.pios.scheduler.service;
 
+import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.RegisterUserRequest;
+import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import hr.tvz.pios.scheduler.model.User;
@@ -10,6 +12,7 @@ import hr.tvz.pios.scheduler.repository.RoleRepository;
 import hr.tvz.pios.scheduler.repository.UserRepository;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService {
 
+    private final CurrentUserService currentUserService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PreferencesRepository preferencesRepository;
@@ -46,6 +50,28 @@ public class UserService {
         }
 
         userRepository.save(user);
+    }
+
+    public UserPreferences changeUserPreferences(UserPreferencesRequest request) {
+        User user = currentUserService.getLoggedInUser();
+        UserPreferences preferences = user.getPreferences();
+
+        preferences.setLocale(request.getLocale());
+        preferences.setDarkMode(request.getDarkMode());
+
+        return preferencesRepository.save(preferences);
+    }
+
+    public void changeUsername(ChangeUsernameRequest request) {
+        User user = currentUserService.getLoggedInUser();
+
+        user.setUsername(request.getNewUsername());
+        try {
+            userRepository.save(user);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new UsernameAlreadyTakenException("This username is already taken.", e);
+        }
     }
 
     public Optional<User> getUserByUsername(String username) {
