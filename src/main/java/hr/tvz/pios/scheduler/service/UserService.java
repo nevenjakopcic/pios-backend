@@ -4,6 +4,7 @@ import hr.tvz.pios.scheduler.dto.request.ChangePasswordRequest;
 import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.RegisterUserRequest;
 import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
+import hr.tvz.pios.scheduler.dto.response.UserDto;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import hr.tvz.pios.scheduler.model.User;
@@ -11,8 +12,11 @@ import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.repository.PreferencesRepository;
 import hr.tvz.pios.scheduler.repository.RoleRepository;
 import hr.tvz.pios.scheduler.repository.UserRepository;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +29,24 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PreferencesRepository preferencesRepository;
+    private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
+
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                        .map(user -> mapper.map(user, UserDto.class))
+                        .collect(Collectors.toList());
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public void save(RegisterUserRequest registerRequest) {
 
@@ -80,13 +101,5 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-    }
-
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 }

@@ -4,13 +4,17 @@ import hr.tvz.pios.scheduler.dto.ApiResponse;
 import hr.tvz.pios.scheduler.dto.request.ChangePasswordRequest;
 import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
+import hr.tvz.pios.scheduler.dto.response.UserDto;
 import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.service.UserService;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<ApiResponse> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+
+        return new ResponseEntity<>(new ApiResponse(users), HttpStatus.OK);
+    }
 
     @PutMapping("/preferences")
     public ResponseEntity<ApiResponse> changeUserPreferences(@Valid @RequestBody final UserPreferencesRequest request) {
