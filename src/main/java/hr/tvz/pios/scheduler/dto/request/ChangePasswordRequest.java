@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChangeUsernameRequest {
+public class ChangePasswordRequest {
 
-    @NotBlank(message = "Field 'newUsername' cannot be blank.")
-    private String newUsername;
+    @NotBlank(message = "Field 'newPassword' cannot be blank.")
+    private String newPassword;
 }

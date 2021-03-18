@@ -1,5 +1,6 @@
 package hr.tvz.pios.scheduler.service;
 
+import hr.tvz.pios.scheduler.dto.request.ChangePasswordRequest;
 import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.RegisterUserRequest;
 import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
@@ -72,6 +73,13 @@ public class UserService {
         catch (DataIntegrityViolationException e) {
             throw new UsernameAlreadyTakenException("This username is already taken.", e);
         }
+    }
+
+    public void changePassword(ChangePasswordRequest request) {
+        User user = currentUserService.getLoggedInUser();
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 
     public Optional<User> getUserByUsername(String username) {

@@ -1,6 +1,7 @@
 package hr.tvz.pios.scheduler.controller;
 
 import hr.tvz.pios.scheduler.dto.ApiResponse;
+import hr.tvz.pios.scheduler.dto.request.ChangePasswordRequest;
 import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
 import hr.tvz.pios.scheduler.model.UserPreferences;
@@ -30,8 +31,14 @@ public class UserController {
     }
 
     @PutMapping("/change-username")
-    public ResponseEntity<ApiResponse> changeUsername(@NotBlank @RequestBody final ChangeUsernameRequest newUsername) {
-        userService.changeUsername(newUsername);
+    public ResponseEntity<ApiResponse> changeUsername(@NotBlank @RequestBody final ChangeUsernameRequest request) {
+        userService.changeUsername(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<ApiResponse> changePassword(@NotBlank @RequestBody final ChangePasswordRequest request) {
+        userService.changePassword(request);
         return ResponseEntity.noContent().build();
     }
 }
