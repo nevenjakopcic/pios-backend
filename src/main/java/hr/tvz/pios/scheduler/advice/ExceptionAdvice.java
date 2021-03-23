@@ -2,6 +2,7 @@ package hr.tvz.pios.scheduler.advice;
 
 import hr.tvz.pios.scheduler.dto.ApiResponse;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
+import hr.tvz.pios.scheduler.exception.NotFoundException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,11 @@ public class ExceptionAdvice {
         });
 
         return new ResponseEntity<>(new ApiResponse(errors, "Validation failed."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<ApiResponse> handleNotFoundException(RuntimeException e) {
+        return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({UsernameAlreadyTakenException.class,

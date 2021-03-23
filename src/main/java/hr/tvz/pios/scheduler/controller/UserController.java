@@ -30,7 +30,7 @@ public class UserController {
     @GetMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponse> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers();
+        List<UserDto> users = userService.getAll();
 
         return new ResponseEntity<>(new ApiResponse(users), HttpStatus.OK);
     }

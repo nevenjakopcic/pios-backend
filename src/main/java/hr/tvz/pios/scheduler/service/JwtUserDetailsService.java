@@ -23,6 +23,6 @@ public class JwtUserDetailsService implements UserDetailsService {
        return new User(
            user.getUsername(),
            user.getPassword(),
-           Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName())));
+           Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())));
     }
 }

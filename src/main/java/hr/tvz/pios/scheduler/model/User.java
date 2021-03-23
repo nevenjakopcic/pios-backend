@@ -3,6 +3,8 @@ package hr.tvz.pios.scheduler.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,8 +39,9 @@ public class User implements Serializable {
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
-    @OneToOne
-    private UserRole role;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "ROLE", nullable = false)
+    private UserRoles role;
 
     @OneToOne
     private UserPreferences preferences;

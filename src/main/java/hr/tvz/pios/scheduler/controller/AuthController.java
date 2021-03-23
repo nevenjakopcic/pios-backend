@@ -41,7 +41,7 @@ public class AuthController {
                                         .orElseThrow(() -> new UsernameNotFoundException(""));
 
         return ResponseEntity.ok(new ApiResponse(
-            new JwtResponse(user.getId(), token, user.getEmail(), user.getRole(), user.getPreferences())));
+            new JwtResponse(user.getId(), token, user.getEmail(), user.getRole().ordinal(), user.getPreferences())));
     }
 
     @PostMapping("/register")

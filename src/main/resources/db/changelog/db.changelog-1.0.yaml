@@ -6,29 +6,6 @@ databaseChangeLog:
       changes:
       - createTable:
           schemaName: pios
-          tableName: PERSON_ROLE
-          columns:
-            - column:
-                name: ID
-                type: BIGINT
-                autoIncrement: true
-                constraints:
-                  primaryKey: true
-                  primaryKeyName: PERSON_ROLE_pk
-            - column:
-                name: NAME
-                type: VARCHAR(30)
-                constraints:
-                  nullable: false
-                  unique: true
-            - column:
-                name: ACTIVE
-                type: BIT
-                defaultValue: 1
-                constraints:
-                  nullable: false
-      - createTable:
-          schemaName: pios
           tableName: PERSON_PREFERENCES
           columns:
             - column:
@@ -85,12 +62,10 @@ databaseChangeLog:
                 constraints:
                   nullable: false
             - column:
-                name: ROLE_ID
+                name: ROLE
                 type: BIGINT
                 constraints:
                   nullable: false
-                  foreignKeyName: FK_ROLE_PERSON
-                  references: pios.PERSON_ROLE(ID)
             - column:
                 name: PREFERENCES_ID
                 type: BIGINT
@@ -98,17 +73,3 @@ databaseChangeLog:
                   nullable: false
                   foreignKeyName: FK_PREFERENCES_PERSON
                   references: pios.PERSON_PREFERENCES(ID)
-      - insert:
-          schemaName: pios
-          tableName: PERSON_ROLE
-          columns:
-            - column:
-                name: NAME
-                value: "ROLE_USER"
-      - insert:
-          schemaName: pios
-          tableName: PERSON_ROLE
-          columns:
-            - column:
-                name: NAME
-                value: "ROLE_ADMIN"

@@ -9,8 +9,8 @@ import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import hr.tvz.pios.scheduler.model.User;
 import hr.tvz.pios.scheduler.model.UserPreferences;
+import hr.tvz.pios.scheduler.model.UserRoles;
 import hr.tvz.pios.scheduler.repository.PreferencesRepository;
-import hr.tvz.pios.scheduler.repository.RoleRepository;
 import hr.tvz.pios.scheduler.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +27,11 @@ public class UserService {
 
     private final CurrentUserService currentUserService;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PreferencesRepository preferencesRepository;
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getAll() {
         List<User> users = userRepository.findAll();
 
         return users.stream()
@@ -59,7 +58,7 @@ public class UserService {
             .username(registerRequest.getUsername())
             .password(passwordEncoder.encode(registerRequest.getPassword()))
             .email(registerRequest.getEmail())
-            .role(roleRepository.findByName("ROLE_USER"))
+            .role(UserRoles.ROLE_USER)
             .preferences(preferences)
             .disabled(false).build();
 

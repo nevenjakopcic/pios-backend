@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,7 @@ public class Membership implements Serializable {
     private PurchaseTypes purchaseType;
 
     @OneToOne
+    @JoinColumn(name = "PERSON_ID")
     private User user;
 
     @Enumerated(EnumType.ORDINAL)
