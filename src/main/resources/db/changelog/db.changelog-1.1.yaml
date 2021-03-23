@@ -1,0 +1,205 @@
+databaseChangeLog:
+  - liquibaseSchemaName: pios
+  - changeSet:
+      id: 1616525791
+      author: Neven Jakopčić
+      changes:
+      - createTable:
+          schemaName: pios
+          tableName: EQUIPMENT_TYPE
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: EQUIPMENT_TYPE_PK
+            - column:
+                name: NAME
+                type: VARCHAR(50)
+                constraints:
+                  nullable: false
+                  unique: true
+      - createTable:
+          schemaName: pios
+          tableName: EQUIPMENT
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: EQUIPMENT_PK
+            - column:
+                name: NAME
+                type: VARCHAR(50)
+                constraints:
+                  nullable: false
+                  unique: true
+            - column:
+                name: EQUIPMENT_TYPE_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_TYPE_EQUIPMENT
+                  references: pios.EQUIPMENT_TYPE(ID)
+            - column:
+                name: PERSON_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_PERSON_EQUIPMENT
+                  references: pios.PERSON(ID)
+      - createTable:
+          schemaName: pios
+          tableName: RESERVATION
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: RESERVATION_PK
+            - column:
+                name: FROM
+                type: DATETIME
+                constraints:
+                  nullable: false
+            - column:
+                name: TO
+                type: DATETIME
+                constraints:
+                  nullable: false
+            - column:
+                name: DESCRIPTION
+                type: VARCHAR(200)
+                constraints:
+                  nullable: false
+            - column:
+                name: PERSON_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_PERSON_RESERVATION
+                  references: pios.PERSON(ID)
+      - createTable:
+          schemaName: pios
+          tableName: PURCHASE_TYPE
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: PURCHASE_TYPE_PK
+            - column:
+                name: NAME
+                type: VARCHAR(50)
+                constraints:
+                  nullable: false
+                  unique: true
+      - createTable:
+          schemaName: pios
+          tableName: MEMBERSHIP_DURATION
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: MEMBERSHIP_DURATION_PK
+            - column:
+                name: NAME
+                type: VARCHAR(50)
+                constraints:
+                  nullable: false
+                  unique: true
+      - createTable:
+          schemaName: pios
+          tableName: MEMBERSHIP
+          columns:
+            - column:
+                name: ID
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: MEMBERSHIP_PK
+            - column:
+                name: PURCHASED_AT
+                type: DATETIME
+                constraints:
+                  nullable: false
+            - column:
+                name: AMOUNT
+                type: DECIMAL(18, 0)
+                constraints:
+                  nullable: false
+            - column:
+                name: PURCHASE_TYPE_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_PURCHASE_TYPE_MEMBERSHIP
+                  references: pios.PURCHASE_TYPE(ID)
+            - column:
+                name: PERSON_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_PERSON_MEMBERSHIP
+                  references: pios.PERSON(ID)
+            - column:
+                name: DURATION_ID
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  foreignKeyName: FK_DURATION_MEMBERSHIP
+                  references: pios.MEMBERSHIP_DURATION(ID)
+      - insert:
+          schemaName: pios
+          tableName: PURCHASE_TYPE
+          columns:
+            - column:
+                name: NAME
+                value: "ONLINE"
+      - insert:
+          schemaName: pios
+          tableName: PURCHASE_TYPE
+          columns:
+            - column:
+                name: NAME
+                value: "CASH"
+      - insert:
+          schemaName: pios
+          tableName: PURCHASE_TYPE
+          columns:
+            - column:
+                name: NAME
+                value: "CREDIT_CARD"
+      - insert:
+          schemaName: pios
+          tableName: MEMBERSHIP_DURATION
+          columns:
+            - column:
+                name: NAME
+                value: "MONTH"
+      - insert:
+          schemaName: pios
+          tableName: MEMBERSHIP_DURATION
+          columns:
+            - column:
+                name: NAME
+                value: "HALF_YEAR"
+      - insert:
+          schemaName: pios
+          tableName: MEMBERSHIP_DURATION
+          columns:
+            - column:
+                name: NAME
+                value: "YEAR"
