@@ -87,40 +87,6 @@ databaseChangeLog:
                   references: pios.PERSON(ID)
       - createTable:
           schemaName: pios
-          tableName: PURCHASE_TYPE
-          columns:
-            - column:
-                name: ID
-                type: BIGINT
-                autoIncrement: true
-                constraints:
-                  primaryKey: true
-                  primaryKeyName: PURCHASE_TYPE_PK
-            - column:
-                name: NAME
-                type: VARCHAR(50)
-                constraints:
-                  nullable: false
-                  unique: true
-      - createTable:
-          schemaName: pios
-          tableName: MEMBERSHIP_DURATION
-          columns:
-            - column:
-                name: ID
-                type: BIGINT
-                autoIncrement: true
-                constraints:
-                  primaryKey: true
-                  primaryKeyName: MEMBERSHIP_DURATION_PK
-            - column:
-                name: NAME
-                type: VARCHAR(50)
-                constraints:
-                  nullable: false
-                  unique: true
-      - createTable:
-          schemaName: pios
           tableName: MEMBERSHIP
           columns:
             - column:
@@ -137,16 +103,14 @@ databaseChangeLog:
                   nullable: false
             - column:
                 name: AMOUNT
-                type: DECIMAL(18, 0)
+                type: DOUBLE(18, 0)
                 constraints:
                   nullable: false
             - column:
-                name: PURCHASE_TYPE_ID
+                name: PURCHASE_TYPE
                 type: BIGINT
                 constraints:
                   nullable: false
-                  foreignKeyName: FK_PURCHASE_TYPE_MEMBERSHIP
-                  references: pios.PURCHASE_TYPE(ID)
             - column:
                 name: PERSON_ID
                 type: BIGINT
@@ -155,51 +119,7 @@ databaseChangeLog:
                   foreignKeyName: FK_PERSON_MEMBERSHIP
                   references: pios.PERSON(ID)
             - column:
-                name: DURATION_ID
+                name: DURATION
                 type: BIGINT
                 constraints:
                   nullable: false
-                  foreignKeyName: FK_DURATION_MEMBERSHIP
-                  references: pios.MEMBERSHIP_DURATION(ID)
-      - insert:
-          schemaName: pios
-          tableName: PURCHASE_TYPE
-          columns:
-            - column:
-                name: NAME
-                value: "ONLINE"
-      - insert:
-          schemaName: pios
-          tableName: PURCHASE_TYPE
-          columns:
-            - column:
-                name: NAME
-                value: "CASH"
-      - insert:
-          schemaName: pios
-          tableName: PURCHASE_TYPE
-          columns:
-            - column:
-                name: NAME
-                value: "CREDIT_CARD"
-      - insert:
-          schemaName: pios
-          tableName: MEMBERSHIP_DURATION
-          columns:
-            - column:
-                name: NAME
-                value: "MONTH"
-      - insert:
-          schemaName: pios
-          tableName: MEMBERSHIP_DURATION
-          columns:
-            - column:
-                name: NAME
-                value: "HALF_YEAR"
-      - insert:
-          schemaName: pios
-          tableName: MEMBERSHIP_DURATION
-          columns:
-            - column:
-                name: NAME
-                value: "YEAR"
