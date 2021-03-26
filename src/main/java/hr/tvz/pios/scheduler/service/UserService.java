@@ -7,6 +7,7 @@ import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
 import hr.tvz.pios.scheduler.dto.response.UserDto;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
+import hr.tvz.pios.scheduler.mapper.UserToDtoMapper;
 import hr.tvz.pios.scheduler.model.User;
 import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.model.UserRoles;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,14 +28,13 @@ public class UserService {
     private final CurrentUserService currentUserService;
     private final UserRepository userRepository;
     private final PreferencesRepository preferencesRepository;
-    private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
     public List<UserDto> getAll() {
         List<User> users = userRepository.findAll();
 
         return users.stream()
-                        .map(user -> mapper.map(user, UserDto.class))
+                        .map(UserToDtoMapper::map)
                         .collect(Collectors.toList());
     }
 
