@@ -9,6 +9,8 @@ import hr.tvz.pios.scheduler.repository.MembershipRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +21,7 @@ public class MembershipService {
     private final CurrentUserService currentUserService;
 
     public List<MembershipDto> getAll() {
-        List<Membership> memberships = membershipRepository.findAll();
+        List<Membership> memberships = membershipRepository.findAll(Sort.by(Direction.DESC, "purchasedAt"));
 
         return memberships.stream()
                             .map(MembershipToDtoMapper::map)
@@ -37,7 +39,7 @@ public class MembershipService {
 
     public List<MembershipDto> getAllOfUser(Long userId) {
         currentUserService.validateIsCurrentUserOrAdmin(userId);
-        List<Membership> memberships = membershipRepository.findAllByUser_Id(userId);
+        List<Membership> memberships = membershipRepository.findAllByUser_IdOrderByPurchasedAtDesc(userId);
 
         if (memberships.isEmpty()) {
             throw new NotFoundException(String.format("No memberships found for user with ID %d.", userId));

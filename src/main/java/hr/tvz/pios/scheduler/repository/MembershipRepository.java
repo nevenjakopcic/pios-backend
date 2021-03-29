@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MembershipRepository extends JpaRepository<Membership, Long> {
 
-    List<Membership> findAllByUser_Id(Long userId);
+    List<Membership> findAllByUser_IdOrderByPurchasedAtDesc(Long userId);
 }
