@@ -1,6 +1,7 @@
 package hr.tvz.pios.scheduler.controller;
 
 import hr.tvz.pios.scheduler.dto.ApiResponse;
+import hr.tvz.pios.scheduler.dto.request.CreateEquipmentRequest;
 import hr.tvz.pios.scheduler.dto.request.CreateEquipmentTypeRequest;
 import hr.tvz.pios.scheduler.service.EquipmentService;
 import javax.validation.Valid;
@@ -20,6 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
+
+    @PostMapping
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<ApiResponse> createEquipment(@Valid @RequestBody final CreateEquipmentRequest request) {
+        return new ResponseEntity<>(new ApiResponse(equipmentService.createEquipment(request)), HttpStatus.CREATED);
+    }
 
     @GetMapping("/type")
     public ResponseEntity<ApiResponse> getAllTypes() {

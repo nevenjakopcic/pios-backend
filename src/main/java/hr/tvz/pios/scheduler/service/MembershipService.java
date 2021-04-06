@@ -3,7 +3,7 @@ package hr.tvz.pios.scheduler.service;
 import hr.tvz.pios.scheduler.dto.request.CreateMembershipRequest;
 import hr.tvz.pios.scheduler.dto.response.MembershipDto;
 import hr.tvz.pios.scheduler.exception.NotFoundException;
-import hr.tvz.pios.scheduler.mapper.MembershipToDtoMapper;
+import hr.tvz.pios.scheduler.mapper.MembershipDtoMapper;
 import hr.tvz.pios.scheduler.model.Membership;
 import hr.tvz.pios.scheduler.repository.MembershipRepository;
 import java.util.List;
@@ -24,7 +24,7 @@ public class MembershipService {
         List<Membership> memberships = membershipRepository.findAll(Sort.by(Direction.DESC, "purchasedAt"));
 
         return memberships.stream()
-                            .map(MembershipToDtoMapper::map)
+                            .map(MembershipDtoMapper::map)
                             .collect(Collectors.toList());
     }
 
@@ -34,7 +34,7 @@ public class MembershipService {
 
         currentUserService.validateIsCurrentUserOrAdmin(membership.getUser().getId());
 
-        return MembershipToDtoMapper.map(membership);
+        return MembershipDtoMapper.map(membership);
     }
 
     public List<MembershipDto> getAllOfUser(Long userId) {
@@ -46,7 +46,7 @@ public class MembershipService {
         }
 
         return memberships.stream()
-                            .map(MembershipToDtoMapper::map)
+                            .map(MembershipDtoMapper::map)
                             .collect(Collectors.toList());
     }
 
@@ -60,7 +60,7 @@ public class MembershipService {
 
         membership = membershipRepository.save(membership);
 
-        return MembershipToDtoMapper.map(membership);
+        return MembershipDtoMapper.map(membership);
     }
 
     public void deleteMembership(Long id) {

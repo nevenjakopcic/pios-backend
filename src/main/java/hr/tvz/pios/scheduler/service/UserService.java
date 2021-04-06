@@ -7,7 +7,7 @@ import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
 import hr.tvz.pios.scheduler.dto.response.UserDto;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
-import hr.tvz.pios.scheduler.mapper.UserToDtoMapper;
+import hr.tvz.pios.scheduler.mapper.UserDtoMapper;
 import hr.tvz.pios.scheduler.model.User;
 import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.model.UserRoles;
@@ -34,7 +34,7 @@ public class UserService {
         List<User> users = userRepository.findAll();
 
         return users.stream()
-                        .map(UserToDtoMapper::map)
+                        .map(UserDtoMapper::map)
                         .collect(Collectors.toList());
     }
 

@@ -2,6 +2,7 @@ package hr.tvz.pios.scheduler.advice;
 
 import hr.tvz.pios.scheduler.dto.ApiResponse;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
+import hr.tvz.pios.scheduler.exception.NoSuchTypeException;
 import hr.tvz.pios.scheduler.exception.NotFoundException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import java.util.HashMap;
@@ -36,7 +37,8 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler({UsernameAlreadyTakenException.class,
-                        EmailAlreadyTakenException.class})
+                        EmailAlreadyTakenException.class,
+                        NoSuchTypeException.class})
     public ResponseEntity<ApiResponse> handleBadRequestException(RuntimeException e) {
         return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
@@ -48,6 +50,6 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException e) {
-        return new ResponseEntity<>(new ApiResponse("Access denied."), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.FORBIDDEN);
     }
 }

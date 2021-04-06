@@ -6,12 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @Data
 @Builder
@@ -32,8 +34,11 @@ public class Equipment implements Serializable {
     private String name;
 
     @OneToOne
+    @JoinColumn(name = "EQUIPMENT_TYPE_ID")
     private EquipmentType type;
 
     @OneToOne
+    @JoinColumn(name = "PERSON_ID")
+    @Nullable
     private User user;
 }

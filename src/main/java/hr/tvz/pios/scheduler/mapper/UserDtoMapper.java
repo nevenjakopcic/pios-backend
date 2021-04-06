@@ -3,7 +3,7 @@ package hr.tvz.pios.scheduler.mapper;
 import hr.tvz.pios.scheduler.dto.response.UserDto;
 import hr.tvz.pios.scheduler.model.User;
 
-public class UserToDtoMapper {
+public class UserDtoMapper {
 
     public static UserDto map(User source) {
         return UserDto.builder()
@@ -13,5 +13,5 @@ public class UserToDtoMapper {
             .role(source.getRole().ordinal()).build();
     }
 
-    private UserToDtoMapper() {}
+    private UserDtoMapper() {}
 }
