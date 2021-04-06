@@ -1,6 +1,7 @@
 package hr.tvz.pios.scheduler.advice;
 
 import hr.tvz.pios.scheduler.dto.ApiResponse;
+import hr.tvz.pios.scheduler.exception.DuplicateValueException;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.NoSuchTypeException;
 import hr.tvz.pios.scheduler.exception.NotFoundException;
@@ -38,7 +39,8 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({UsernameAlreadyTakenException.class,
                         EmailAlreadyTakenException.class,
-                        NoSuchTypeException.class})
+                        NoSuchTypeException.class,
+                        DuplicateValueException.class})
     public ResponseEntity<ApiResponse> handleBadRequestException(RuntimeException e) {
         return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
