@@ -106,9 +106,9 @@
         <version>1.13.0</version>
         <configuration>
           <schemaVersion>v2</schemaVersion>
-          <subscriptionId>acb6534a-348d-4bba-a69e-a41bf9f2dae3</subscriptionId>
-          <resourceGroup>scheduler-1615905897869-rg</resourceGroup>
-          <appName>scheduler-1615905897869</appName>
+          <subscriptionId>4ee53350-4305-43be-a878-93afa2602d12</subscriptionId>
+          <resourceGroup>scheduler-1617379782326-rg</resourceGroup>
+          <appName>scheduler-1617379782326</appName>
           <pricingTier>B1</pricingTier>
           <region>westeurope</region>
           <runtime>

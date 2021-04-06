@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://pios-server.database.windows.net:1433;database=pios-test;currentSchema=pios;
+    url: jdbc:sqlserver://pios.database.windows.net:1433;database=pios-test;currentSchema=pios;
     username: pios-admin
     password: Ukrajina44
   jpa:
