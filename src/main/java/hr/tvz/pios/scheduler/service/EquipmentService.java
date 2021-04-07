@@ -5,6 +5,8 @@ import hr.tvz.pios.scheduler.dto.request.CreateEquipmentTypeRequest;
 import hr.tvz.pios.scheduler.dto.response.EquipmentDto;
 import hr.tvz.pios.scheduler.exception.DuplicateValueException;
 import hr.tvz.pios.scheduler.exception.NoSuchTypeException;
+import hr.tvz.pios.scheduler.exception.NotFoundException;
+import hr.tvz.pios.scheduler.exception.UserAlreadyAssignedException;
 import hr.tvz.pios.scheduler.mapper.EquipmentDtoMapper;
 import hr.tvz.pios.scheduler.model.Equipment;
 import hr.tvz.pios.scheduler.model.EquipmentType;
@@ -49,6 +51,32 @@ public class EquipmentService {
         }
 
         return EquipmentDtoMapper.map(equipment);
+    }
+
+    public void assignToCurrentUser(Long equipmentId) {
+        Equipment equipment = equipmentRepository.findById(equipmentId)
+                                .orElseThrow(() -> new NotFoundException("Equipment with id " + equipmentId + " not found."));
+
+        if (equipment.getUser() != null) {
+            throw new UserAlreadyAssignedException("This equipment is already assigned to a user.");
+        }
+
+        equipment.setUser(currentUserService.getLoggedInUser());
+
+        equipmentRepository.save(equipment);
+    }
+
+    public void unassignFromUser(Long equipmentId) {
+        Equipment equipment = equipmentRepository.findById(equipmentId)
+            .orElseThrow(() -> new NotFoundException("Equipment with id " + equipmentId + " not found."));
+
+        if (equipment.getUser() != null) {
+            currentUserService.validateIsLoggedInUserOrAdmin(equipment.getUser().getId(),
+                "Not allowed to unassign other user from equipment.");
+        }
+
+        equipment.setUser(null);
+        equipmentRepository.save(equipment);
     }
 
     public List<EquipmentType> getAllTypes() {

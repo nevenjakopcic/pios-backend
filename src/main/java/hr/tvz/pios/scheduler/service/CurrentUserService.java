@@ -22,12 +22,19 @@ public class CurrentUserService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public void validateIsCurrentUserOrAdmin(Long userId) {
-        User currentUser = getLoggedInUser();
-
-        if (userId.equals(currentUser.getId()) || UserRoles.ROLE_ADMIN.equals(currentUser.getRole()))
+    public void validateIsLoggedInUserOrAdmin(Long userId, String errorMessage) {
+        if (isLoggedInUserOrAdmin(userId))
             return;
 
-        throw new AccessDeniedException("Access denied.");
+        throw new AccessDeniedException(errorMessage);
+    }
+
+    public void validateIsLoggedInUserOrAdmin(Long userId) {
+        validateIsLoggedInUserOrAdmin(userId, "Access denied.");
+    }
+
+    public boolean isLoggedInUserOrAdmin(Long userId) {
+        User loggedInUser = getLoggedInUser();
+        return userId.equals(loggedInUser.getId()) || UserRoles.ROLE_ADMIN.equals(loggedInUser.getRole());
     }
 }

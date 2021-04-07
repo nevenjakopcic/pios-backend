@@ -5,6 +5,7 @@ import hr.tvz.pios.scheduler.exception.DuplicateValueException;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.NoSuchTypeException;
 import hr.tvz.pios.scheduler.exception.NotFoundException;
+import hr.tvz.pios.scheduler.exception.UserAlreadyAssignedException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,8 @@ public class ExceptionAdvice {
     @ExceptionHandler({UsernameAlreadyTakenException.class,
                         EmailAlreadyTakenException.class,
                         NoSuchTypeException.class,
-                        DuplicateValueException.class})
+                        DuplicateValueException.class,
+                        UserAlreadyAssignedException.class})
     public ResponseEntity<ApiResponse> handleBadRequestException(RuntimeException e) {
         return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }

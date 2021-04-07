@@ -32,13 +32,13 @@ public class MembershipService {
         Membership membership = membershipRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(String.format("Membership with ID %d not found.", id)));
 
-        currentUserService.validateIsCurrentUserOrAdmin(membership.getUser().getId());
+        currentUserService.validateIsLoggedInUserOrAdmin(membership.getUser().getId());
 
         return MembershipDtoMapper.map(membership);
     }
 
     public List<MembershipDto> getAllOfUser(Long userId) {
-        currentUserService.validateIsCurrentUserOrAdmin(userId);
+        currentUserService.validateIsLoggedInUserOrAdmin(userId);
         List<Membership> memberships = membershipRepository.findAllByUser_IdOrderByPurchasedAtDesc(userId);
 
         if (memberships.isEmpty()) {
