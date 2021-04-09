@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,15 +30,16 @@ public class Reservation implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "FROM", nullable = false)
+    @Column(name = "START_TIME", nullable = false)
     private LocalDateTime from;
 
-    @Column(name = "TO", nullable = false)
+    @Column(name = "END_TIME", nullable = false)
     private LocalDateTime to;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @OneToOne
+    @JoinColumn(name = "PERSON_ID")
     private User user;
 }

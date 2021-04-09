@@ -64,12 +64,12 @@ databaseChangeLog:
                   primaryKey: true
                   primaryKeyName: RESERVATION_PK
             - column:
-                name: FROM
+                name: START_TIME
                 type: DATETIME
                 constraints:
                   nullable: false
             - column:
-                name: TO
+                name: END_TIME
                 type: DATETIME
                 constraints:
                   nullable: false
