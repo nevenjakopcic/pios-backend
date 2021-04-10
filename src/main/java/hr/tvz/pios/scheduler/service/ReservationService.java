@@ -32,4 +32,8 @@ public class ReservationService {
 
         return ReservationDtoMapper.map(reservationRepository.save(reservation));
     }
+
+    public void deleteReservation(Long id) {
+        reservationRepository.deleteById(id);
+    }
 }

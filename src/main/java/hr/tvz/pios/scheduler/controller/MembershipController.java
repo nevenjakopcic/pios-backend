@@ -45,7 +45,7 @@ public class MembershipController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteMembershipById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> deleteMembership(@PathVariable Long id) {
         membershipService.deleteMembership(id);
 
         return ResponseEntity.noContent().build();
