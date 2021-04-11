@@ -4,10 +4,8 @@ import hr.tvz.pios.scheduler.dto.ApiResponse;
 import hr.tvz.pios.scheduler.dto.request.ChangePasswordRequest;
 import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
-import hr.tvz.pios.scheduler.dto.response.UserDto;
 import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.service.UserService;
-import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -30,9 +28,7 @@ public class UserController {
     @GetMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponse> getAllUsers() {
-        List<UserDto> users = userService.getAll();
-
-        return new ResponseEntity<>(new ApiResponse(users), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(userService.getAll()), HttpStatus.OK);
     }
 
     @PutMapping("/preferences")

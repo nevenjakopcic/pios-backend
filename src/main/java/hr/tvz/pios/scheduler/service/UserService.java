@@ -4,15 +4,22 @@ import hr.tvz.pios.scheduler.dto.request.ChangePasswordRequest;
 import hr.tvz.pios.scheduler.dto.request.ChangeUsernameRequest;
 import hr.tvz.pios.scheduler.dto.request.RegisterUserRequest;
 import hr.tvz.pios.scheduler.dto.request.UserPreferencesRequest;
-import hr.tvz.pios.scheduler.dto.response.UserDto;
+import hr.tvz.pios.scheduler.dto.response.UserMembershipEquipmentDto;
 import hr.tvz.pios.scheduler.exception.EmailAlreadyTakenException;
 import hr.tvz.pios.scheduler.exception.UsernameAlreadyTakenException;
+import hr.tvz.pios.scheduler.mapper.EquipmentDtoMapper;
+import hr.tvz.pios.scheduler.mapper.MembershipDtoMapper;
 import hr.tvz.pios.scheduler.mapper.UserDtoMapper;
+import hr.tvz.pios.scheduler.model.Equipment;
+import hr.tvz.pios.scheduler.model.Membership;
 import hr.tvz.pios.scheduler.model.User;
 import hr.tvz.pios.scheduler.model.UserPreferences;
 import hr.tvz.pios.scheduler.model.UserRoles;
+import hr.tvz.pios.scheduler.repository.EquipmentRepository;
+import hr.tvz.pios.scheduler.repository.MembershipRepository;
 import hr.tvz.pios.scheduler.repository.PreferencesRepository;
 import hr.tvz.pios.scheduler.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,14 +35,38 @@ public class UserService {
     private final CurrentUserService currentUserService;
     private final UserRepository userRepository;
     private final PreferencesRepository preferencesRepository;
+    private final MembershipRepository membershipRepository;
+    private final EquipmentRepository equipmentRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<UserDto> getAll() {
+    public List<UserMembershipEquipmentDto> getAll() {
         List<User> users = userRepository.findAll();
+        List<Membership> memberships = membershipRepository.findAll();
+        List<Equipment> equipments = equipmentRepository.findAll();
+        List<UserMembershipEquipmentDto> dtos = new ArrayList<>();
 
-        return users.stream()
-                        .map(UserDtoMapper::map)
-                        .collect(Collectors.toList());
+        for (User user : users) {
+            UserMembershipEquipmentDto dto = UserMembershipEquipmentDto.builder()
+                .user(UserDtoMapper.map(user))
+                .equipments(new ArrayList<>())
+                .memberships(new ArrayList<>()).build();
+
+            dto.setMemberships(memberships.stream()
+                .filter(m -> user.equals(m.getUser()))
+                .map(MembershipDtoMapper::map)
+                .collect(Collectors.toList())
+            );
+
+            dto.setEquipments(equipments.stream()
+                .filter(e -> user.equals(e.getUser()))
+                .map(EquipmentDtoMapper::map)
+                .collect(Collectors.toList())
+            );
+
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 
     public Optional<User> getUserByUsername(String username) {
